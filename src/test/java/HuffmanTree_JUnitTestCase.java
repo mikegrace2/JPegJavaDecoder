@@ -1,7 +1,10 @@
+package tests;
+
 import static org.junit.Assert.fail;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.File;
 
 import model.HuffmanSearchString;
 import model.JPegData;
@@ -42,11 +45,15 @@ public class HuffmanTree_JUnitTestCase extends ModulesBase{
 	 * Load the standard tables from a JPeg file. It doesn't matter which it is every JPeg contains it.
 	 * @throws Exception
 	 */
-	@Before
-	public void setUp() throws Exception {
-		this.jPegData=new JPegFileReader().readJPeg(
-				"C:\\Users\\michael\\OneDrive\\SantaClaraUniversity\\2015-10.Winter\\COEN338_Multimedia Data Compression I Image and Video\\COEN338Project\\MySample_jpeg\\16times16Black_4_2_0.jpg");
-	}
+    @Before
+    public void setUp() throws Exception {
+        java.net.URL resource = getClass().getClassLoader().getResource("16times16Black_4_2_0.jpg");
+        if (resource == null) {
+            fail("Test JPEG file not found in resources!");
+        }
+        File file = new File(resource.toURI());
+        this.jPegData = new JPegFileReader().readJPeg(file.getPath());
+    }
 
 	@After
 	public void tearDown() throws Exception {
